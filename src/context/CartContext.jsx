@@ -1,9 +1,16 @@
-import React from 'react'
+import { createContext, useContext } from "react";
 
-const CartContext = () => {
+const CartContext = createContext();
+import { initialProducts } from "../data/product";
+
+export const CartProvider = (props) => {
+  const products = initialProducts;
+
   return (
-    <div>CartContext</div>
-  )
-}
+    <CartContext.Provider value={{ products }}>
+        {props.children}
+    </CartContext.Provider>
+  );
+};
 
-export default CartContext
+export const useCart = () => useContext(CartContext);
