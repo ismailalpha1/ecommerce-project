@@ -4,7 +4,12 @@ const CartContext = createContext();
 import { initialProducts } from "../data/product";
 
 export const CartProvider = (props) => {
+  const [cart, setCart] = useState([]);
   const products = initialProducts;
+
+  const addToCart = (product) => {
+    
+  }
 
   return (
     <CartContext.Provider value={{ products }}>
