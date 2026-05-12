@@ -3,9 +3,13 @@ import { useParams } from "react-router-dom";
 import { initialProducts } from "../data/product";
 import { ShoppingCart, ChevronLeft, Tag, Zap } from "lucide-react";
 
+import { useCart } from "../context/CartContext";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setproduct] = useState();
+
+  const { addToCart } = useCart();
 
   useEffect(() => {
     setproduct(initialProducts.find((data) => data.id == id));
@@ -72,6 +76,7 @@ const ProductDetail = () => {
 
         <div className="mt-5 space-y-4 flex justify-center items-center flex-col">
           <button
+            onClick={() => addToCart(product)}
             className="w-full py-3 bg-orange-600 text-white font-bold 
                     rounded-full shadow-lg shadow-orange-800/50 cursor-pointer hover:bg-orange-700 
                     transition duration-300 flex items-center justify-center space-x-2 transform 
