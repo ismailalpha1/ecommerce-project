@@ -1,9 +1,36 @@
-import React from 'react'
+import React from "react";
+import { useCart } from "../context/CartContext";
+
+import { X } from "lucide-react";
 
 const CartItem = () => {
-  return (
-    <div>CartItem</div>
-  )
-}
+  const { addToCart, removeFromCart } = useCart();
 
-export default CartItem
+  const increaseQ = () => addToCart(item);
+  const descreaseQ = () => removeFromCart(item.id);
+  return (
+    <div
+      className="flex flex-col items-center sm:flex-row justify-between
+  p-4 sm:p-6 mb-4 bg-gray-900 rounded-xl shadow-2xl border-gray-800
+  transition duration-300 hover:border-orange-600/50"
+    >
+      <div className="flex items-center space-x-4 w-full sm:w-auto">
+        <img
+          src=""
+          alt=""
+          className="w-24 h-24 object-cover rounded-lg border-2 border-gray-700"
+        />
+        <div className="grow ">
+          <h3 className="text-xl font-bold text-white line-clamp-1">
+            {item.name}
+          </h3>
+        </div>
+        <p className="text-lg text-orange-400 font-semibold">
+          {item.price.toFixed(2)}MAD
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default CartItem;
