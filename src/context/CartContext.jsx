@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo, useState} from "react";
 
 const CartContext = createContext();
 import { initialProducts } from "../data/product";
