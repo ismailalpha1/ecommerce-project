@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import OrderConfirmation from "./OrderConfirmation";
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 import { Package, MapPin, Zap } from "lucide-react";
 
 const Checkout = () => {
-  const {cartTotal, clearCart} = useCart();
+  const { cartTotal, clearCart, cart } = useCart();
   const [deliveryDetails, setDeliveryDetails] = useState({
     name: "",
     address: "",
@@ -15,20 +14,21 @@ const Checkout = () => {
     zip: "",
   });
 
-  const [isConfirmed,setIsConfirmed] = useState(false)
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleChange = (e) => {
-    const {name,value} = e.target;
-    setDeliveryDetails(prev=>({...prev,[name]:value}))
-  }
+    const { name, value } = e.target;
+    setDeliveryDetails((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit= (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     clearCart();
     setIsConfirmed(true);
-  }
+  };
 
-  if(isConfirmed) return <OrderConfirmation deliveryDetails={deliveryDetails}/>
+  if (isConfirmed)
+    return <OrderConfirmation deliveryDetails={deliveryDetails} />;
 
   return (
     <div className="container mx-auto px-4 md:px-8 pt-8">
@@ -76,63 +76,62 @@ const Checkout = () => {
                               transition duration-300 flex items-center justify-center space-x-2 transform 
                               hover:ring-4 hover:ring-pink-600/50 uppercase tracking-wider"
               >
-              {/*<Zap className="w-6 h-6" />*/}
+                {/*<Zap className="w-6 h-6" />*/}
                 <span>Pay and Confirm Order ({cartTotal.toFixed(2)}MAD)</span>
               </button>
             </div>
-             
           </form>
         </div>
 
         {/*Order Summary in Checkout*/}
         <div
-            className="lg:col-span-1 p-8 bg-gray-900 rounded-2xl shadow-2xl border-1-4
+          className="lg:col-span-1 p-8 bg-gray-900 rounded-2xl shadow-2xl border-1-4
           sticky top-20 h-fit border border-gray-800"
-          >
-            <h3
-              className="text-3xl font-bold text-white mb-5 border-b border-y-gray-700 pb-3
+        >
+          <h3
+            className="text-3xl font-bold text-white mb-5 border-b border-y-gray-700 pb-3
             flex items-center space-x-2"
-            >
-              <div className="flex justify-between">
-                <span className="w-6 h-6 text-orange-400">MAD</span>
-                <span>Order Total</span>
-              </div>
-            </h3>
-            <div className="space-y-4 text-gray-400">
-              <div className="flex justify-between text-xl">
-                <span>SubTotal:</span>
-                <span className="font-semibold text-white">
-                  {cartTotal.toFixed(2)}MAD
+          >
+            <Package className="w-6 h-6 text-orange-400" />
+            <span>Summary</span>
+          </h3>
+          <div className="space-y-4 text-gray-400">
+            {cart.map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between text-base border-b border-gray-800 pb-2"
+              >
+                <span className="trucate text-gray-300">{item.name}</span>
+                <span className="font-medium text-orange-300">
+                  {(item.price * item.quantity).toFixed(2)}MAD
                 </span>
               </div>
-
-              <div className="flex justify-between text-xl">
-                <span>Shipping (Express):</span>
-                <span className="font-semibold text-green-400">Free</span>
-              </div>
-
-              <div className="flex justify-between pt-6 border-t border-gray-700">
-                <span className="text-2xl font-extrabold text-white">
-                  Estimated Total:
-                </span>
-                <span className="text-2xl font-extrabold text-orange-400">
-                  MAD{cartTotal.toFixed(2)}
-                </span>
-              </div>
+            ))}
+          </div>
+          <div className="space-y-4 text-gray-400">
+            <div className="flex justify-between text-xl">
+              <span>SubTotal:</span>
+              <span className="font-semibold text-white">
+                {cartTotal.toFixed(2)}MAD
+              </span>
             </div>
 
-            <Link
-              to={"/checkout"}
-              className="w-full mt-8 py-4 bg-orange-600 text-white font-extrabold text-xl 
-              rounded-full shadow-lg shadow-orange-800/50 cursor-pointer hover:bg-orange-700 
-              transition duration-300 flex items-center justify-center space-x-2 transform 
-              hover:ring-4 hover:ring-pink-600/50 uppercase tracking-wider"
-            >
-              <Zap className="w-6 h-6" />
-              <span>Proceed Securely</span>
-            </Link>
-            <p className="text-xs text-gray-500 text-center mt-4 ">All transactions are encrypted and secure.</p>
+            <div className="flex justify-between text-xl">
+              <span>Shipping (Express):</span>
+              <span className="font-semibold text-green-400">Free</span>
+            </div>
+
+            <div className="flex justify-between pt-6 border-t border-gray-700">
+              <span className="text-2xl font-extrabold text-white">
+                Total Due:
+              </span>
+              <span className="text-3xl font-extrabold text-orange-400">
+                MAD{cartTotal.toFixed(2)}
+              </span>
+            </div>
           </div>
+
+        </div>
       </div>
     </div>
   );
